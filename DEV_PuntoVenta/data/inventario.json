@@ -1,0 +1,8 @@
+{
+    "id_prod":"prod",
+    "familias":["abarrotes"],
+    "subfamilias":["Aderezos"],
+    "prod_1":{
+        "nombre":"Pan"
+    }
+}

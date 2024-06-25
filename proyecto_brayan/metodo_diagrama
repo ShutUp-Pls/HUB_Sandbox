@@ -1,0 +1,24 @@
+// Metodo
+digraph {
+	Inicio [label=Inicio]
+	Paso1 [label="Paso 1: Inicialización
+a = 0, b = 4, num_iteraciones = 0"]
+	Bucle [label=Bucle]
+	Paso2 [label="Paso 2: Calcular a0, fa, fb, f0
+y el error"]
+	Verificar [label="Error <= Tolerancia?"]
+	Paso6 [label="Paso 6: Retornar a0, f0, num_iteraciones"]
+	Incrementar [label="Incrementar num_iteraciones"]
+	Paso3 [label="Paso 3: Calcular a1, a2, f1, f2"]
+	Paso4 [label="Paso 4: Actualizar a y b
+según las condiciones"]
+	Inicio -> Paso1
+	Paso1 -> Bucle
+	Bucle -> Paso2
+	Paso2 -> Verificar
+	Verificar -> Paso6
+	Verificar -> Incrementar
+	Incrementar -> Paso3
+	Paso3 -> Paso4
+	Paso4 -> Bucle
+}

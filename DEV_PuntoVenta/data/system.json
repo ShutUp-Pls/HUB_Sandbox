@@ -1,0 +1,19 @@
+{
+    "users":{
+        "user_1":{
+            "nombre":"admin",
+            "tipo":"admin",
+            "pass":"XD"
+        },
+        "user_2":{
+            "nombre":"roberto",
+            "tipo":"venta",
+            "pass":"XD"
+        },
+        "user_3":{
+            "nombre":"marco",
+            "tipo":"venta",
+            "pass":"XD"
+        }
+    }
+}
