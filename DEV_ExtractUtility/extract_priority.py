@@ -8,13 +8,12 @@ def unir_listas_sin_duplicados(*listas):
     return list(elementos_unicos)
 
 EXT_IMG = [
-    '.jpg', '.jpeg', '.png', '.gif', '.bmp',
-    '.tiff', '.tif', '.webp', '.svg', '.ico'
+    '.jpg', '.jpeg', '.png', '.gif', '.webp'
 ]
 
 EXT_VID = [
-    '.mp4', '.avi', '.mkv', '.mov', '.wmv', '.flv', '.webm', 
-    '.mpg', '.mpeg', '.m4v', '.3gp', '.3g2', '.f4v', '.ogg'
+    '.mp4', '.avi', '.mkv', '.mov', '.wmv', '.webm', 
+    '.mpg', '.mpeg', '.m4v', '.3gp'
 ]
 
 EXT_COMP = [

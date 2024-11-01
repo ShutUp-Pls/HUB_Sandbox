@@ -23,7 +23,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 CRYPTO = CryptoUtil()
-ICON_PATH = resource_path('Media/logo.ico')
+ICON_PATH = resource_path('DEV_CriptoMedia\\Media\\logo.ico')
 
 # Función para actualizar la entrada de texto con la carpeta seleccionada
 def select_directory():
