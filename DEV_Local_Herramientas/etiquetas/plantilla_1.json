@@ -1,0 +1,17 @@
+{
+    "path":"etiquetas\\plantilla_1.png",
+    
+    "price_font":"fuentes\\monospaceb.TTF",
+    "price_size":320,
+    "price_color":"white",
+    "price_space":60,
+    "price_x_pos":700,
+    "price_y_pos":100,
+
+    "name_font":"fuentes\\monospaceb.TTF",
+    "name_size":100,
+    "name_color":"black",
+    "name_space":-20,
+    "name_x_pos":100,
+    "name_y_pos":20
+}
