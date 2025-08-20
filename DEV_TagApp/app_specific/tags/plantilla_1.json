@@ -1,0 +1,20 @@
+{
+    "name":"Etiqueta Negra [3.5 x 7.5]",
+    "path":"app_specific\\tags\\plantilla_1.png",
+    
+    "price_font":"app_specific\\fonts\\monospaceb.TTF",
+    "price_size":320,
+    "price_color":"white",
+    "price_space":60,
+    "price_x_pos":700,
+    "price_y_pos":100,
+    "price_max_ch":10,
+
+    "name_font":"app_specific\\fonts\\ubuntumono.TTF",
+    "name_size":70,
+    "name_color":"black",
+    "name_space":6,
+    "name_x_pos":20,
+    "name_y_pos":35,
+    "name_max_ch":29
+}

@@ -1,0 +1,422 @@
+{
+    "__dummy_0__": "===============================",
+    "__dummy_1__": "VARIABLES PARA LA BASE DE DATOS",
+    "__dummy_2__": "===============================",
+    "db_path": "C:\\Users\\marqu\\Desktop\\rjc_prod_f1578.mdb",
+    "db_tables": [
+        "bodega",
+        "caja",
+        "caja_movimiento",
+        "cliente",
+        "conexion",
+        "empresa",
+        "empresa_usuario",
+        "factura",
+        "factura_complemento",
+        "factura_detalle",
+        "factura_exp",
+        "factura_guia",
+        "factura_referencia",
+        "familia",
+        "folio",
+        "folio_disponible",
+        "impuesto",
+        "movimiento",
+        "movimiento_detalle",
+        "parametro",
+        "perfil",
+        "producto",
+        "stock",
+        "subfamilia",
+        "sucursal",
+        "tabla",
+        "tablon",
+        "ubicacion",
+        "usuario",
+        "vendedor"
+    ],
+    "table_product": "producto",
+    "table_family": "familia",
+    "table_subfamily": "subfamilia",
+    "table_taxes": "impuesto",
+    "product_columns": [
+        "id_producto",
+        "codigo",
+        "nombre",
+        "unidad",
+        "factor_compra",
+        "precio_venta",
+        "fecha_creacion",
+        "vigente",
+        "id_usuario_creacion",
+        "fecha_modificacion",
+        "id_usuario_modificacion",
+        "stock_critico",
+        "dias_reposion",
+        "id_impuestos",
+        "afecto_iva",
+        "tiene_impuesto",
+        "precio_venta_boleta",
+        "familia",
+        "subfamilia",
+        "cod_interno",
+        "vendidos"
+    ],
+    "family_structure": {
+        "1": {
+            "familia": "ABARROTES",
+            "sub_familia": {
+                "1": "ACEITES Y ADEREZOS",
+                "2": "ENCURTIDOS",
+                "7": "CONDIMENTOS",
+                "14": "CEREALES",
+                "15": "CONSERVAS",
+                "16": "AZUCAR",
+                "19": "HARINAS Y POLVOS ",
+                "23": "CAFE/TE",
+                "24": "CAFE Y TE",
+                "25": "CONGELADOS",
+                "34": "LACTEOS",
+                "35": "ALIMENTOS INSTANTANEOS",
+                "37": "PASTAS Y SALSAS",
+                "39": "REPOSTERIA",
+                "40": "HUEVOS",
+                "42": "POSTRES",
+                "43": "JUGOS EN POLVO"
+            }
+        },
+        "2": {
+            "familia": "PERFUMERIA",
+            "sub_familia": {
+                "3": "CUIDADO CAPILAR",
+                "32": "CUIDADO DENTAL",
+                "41": "CUIDADO PERSONAL"
+            }
+        },
+        "3": {
+            "familia": "BEBIDAS",
+            "sub_familia": {
+                "4": "JUGOS Y NECTARES",
+                "5": "AGUA MINERAL",
+                "17": "GASEOSAS",
+                "18": "ENERGIZANTES",
+                "38": "REHIDRATANTE"
+            }
+        },
+        "4": {
+            "familia": "LICORES",
+            "sub_familia": {
+                "6": "DESTILADOS",
+                "11": "ESPUMANTE",
+                "20": "JARABES ",
+                "29": "CERVEZAS",
+                "55": "VINOS"
+            }
+        },
+        "5": {
+            "familia": "CONFITES",
+            "sub_familia": {
+                "8": "CHOCOLATES",
+                "9": "GOLOSINAS",
+                "21": "GALLETAS",
+                "22": "SNACKS",
+                "30": "CHICLES"
+            }
+        },
+        "6": {
+            "familia": "ASEO",
+            "sub_familia": {
+                "10": "ACCESORIOS",
+                "12": "AEROSOLES",
+                "27": "BAÑO Y COCINA",
+                "28": "PISOS Y MUEBLES",
+                "33": "PAPEL HIGIENICO",
+                "36": "DETERGENTES",
+                "49": "SERVILLETAS",
+                "50": "TOALLA PAPEL"
+            }
+        },
+        "7": {
+            "familia": "HOGAR",
+            "sub_familia": {
+                "13": "OTROS",
+                "47": "PILAS",
+                "53": "OTROS "
+            }
+        },
+        "8": {
+            "familia": "CONGELADOS",
+            "sub_familia": {
+                "26": "HELADOS"
+            }
+        },
+        "9": {
+            "familia": "TABAQUERIA ",
+            "sub_familia": {
+                "31": "CIGARRILLOS"
+            }
+        },
+        "10": {
+            "familia": "MASCOTAS",
+            "sub_familia": {
+                "44": "ALIMENTOS"
+            }
+        },
+        "11": {
+            "familia": "CONFITES ",
+            "sub_familia": ""
+        },
+        "12": {
+            "familia": "PERFUMERIA ",
+            "sub_familia": {
+                "45": "PAÑALES",
+                "46": "PAÑUELOS",
+                "48": "TOALLAS HIGIENICAS",
+                "51": "TAMPONES",
+                "52": "TOALLAS HUMEDAS"
+            }
+        },
+        "13": {
+            "familia": "ROTISERIA",
+            "sub_familia": {
+                "54": "EMBUTIDOS"
+            }
+        }
+    },
+    "categories_structure": {
+        "1": "ABARROTES",
+        "2": "PERFUMERIA",
+        "3": "BEBIDAS",
+        "4": "LICORES",
+        "5": "CONFITES",
+        "6": "ASEO",
+        "7": "HOGAR",
+        "8": "CONGELADOS",
+        "9": "TABAQUERIA ",
+        "10": "MASCOTAS",
+        "11": "CONFITES ",
+        "12": "PERFUMERIA ",
+        "13": "ROTISERIA"
+    },
+    "subcategories_structure": {
+        "1": {
+            "1": "ACEITES Y ADEREZOS",
+            "2": "ENCURTIDOS",
+            "7": "CONDIMENTOS",
+            "14": "CEREALES",
+            "15": "CONSERVAS",
+            "16": "AZUCAR",
+            "19": "HARINAS Y POLVOS ",
+            "23": "CAFE/TE",
+            "24": "CAFE Y TE",
+            "25": "CONGELADOS",
+            "34": "LACTEOS",
+            "35": "ALIMENTOS INSTANTANEOS",
+            "37": "PASTAS Y SALSAS",
+            "39": "REPOSTERIA",
+            "40": "HUEVOS",
+            "42": "POSTRES",
+            "43": "JUGOS EN POLVO"
+        },
+        "2": {
+            "3": "CUIDADO CAPILAR",
+            "32": "CUIDADO DENTAL",
+            "41": "CUIDADO PERSONAL"
+        },
+        "3": {
+            "4": "JUGOS Y NECTARES",
+            "5": "AGUA MINERAL",
+            "17": "GASEOSAS",
+            "18": "ENERGIZANTES",
+            "38": "REHIDRATANTE"
+        },
+        "4": {
+            "6": "DESTILADOS",
+            "11": "ESPUMANTE",
+            "20": "JARABES ",
+            "29": "CERVEZAS",
+            "55": "VINOS"
+        },
+        "5": {
+            "8": "CHOCOLATES",
+            "9": "GOLOSINAS",
+            "21": "GALLETAS",
+            "22": "SNACKS",
+            "30": "CHICLES"
+        },
+        "6": {
+            "10": "ACCESORIOS",
+            "12": "AEROSOLES",
+            "27": "BAÑO Y COCINA",
+            "28": "PISOS Y MUEBLES",
+            "33": "PAPEL HIGIENICO",
+            "36": "DETERGENTES",
+            "49": "SERVILLETAS",
+            "50": "TOALLA PAPEL"
+        },
+        "7": {
+            "13": "OTROS",
+            "47": "PILAS",
+            "53": "OTROS "
+        },
+        "8": {
+            "26": "HELADOS"
+        },
+        "9": {
+            "31": "CIGARRILLOS"
+        },
+        "10": {
+            "44": "ALIMENTOS"
+        },
+        "12": {
+            "45": "PAÑALES",
+            "46": "PAÑUELOS",
+            "48": "TOALLAS HIGIENICAS",
+            "51": "TAMPONES",
+            "52": "TOALLAS HUMEDAS"
+        },
+        "13": {
+            "54": "EMBUTIDOS"
+        }
+    },
+    "taxes_structure": {
+        "0": "SIN IMPUESTO",
+        "14": "IVA DE MARGEN DE COMERCIALIZACION",
+        "15": "IVA RETENIDO TOTAL",
+        "17": "IVA ANTICIPADO FAENAMIENTO CARNE",
+        "18": "IVA.ANTICIPADO CARNE",
+        "19": "IVA ANTICIPADO HARINA",
+        "23": "Joyas,Oro,Pieles Finas",
+        "24": "Licores,Pisco,Destilados",
+        "25": "Vinos,Chichas,Sidras",
+        "26": "Cervezas otras Bed alc",
+        "27": "AguasMinerales,BedAnalcolic",
+        "28": "IMPUESTO ESPECIFICO DIESEL",
+        "29": "RECUPERACION IMPUESTOS ESPECIFICO",
+        "30": "IVA RETENIDO LEGUMBRES",
+        "31": "IVA RETENIDO SILVESTRES TOTAL",
+        "32": "IVA RETENIDO GANADO",
+        "33": "IVA RETENIDO MADERA",
+        "34": "IVA RETENIDO TRIGO",
+        "35": "IMPUESTO ESPECÃFICO GASOLINA",
+        "36": "IVA RETENIDO ARROZ",
+        "37": "IVA RETENIDO HIDROBIOLOGICAS",
+        "38": "IVA RETENIDO CHATARRA TOTAL",
+        "39": "IVA RETENIDO PPA TOTAL",
+        "41": "IVA RETENIDO CONSTRUCCION",
+        "44": "Tapices,CasasRod,Caviar,ArmdeAire",
+        "45": "IMPUESTO ADICIONAL Art 37 PIROTECNIA",
+        "46": "IVA RETENIDO ORO TOTAL",
+        "47": "IVA RETENIDO CARTONES TOTAL",
+        "48": "IVA RETENIDO FRAMBUESAS",
+        "50": "IVA MARGEN COMERC. INSTRUMENTOS PREPAGO",
+        "51": "IMPUESTO GAS NATURAL",
+        "52": "IMPUESTO GAS LICUADO",
+        "53": "IMPUESTO RETENIDO SUPLEMENTARIO",
+        "60": "RETENCION TOTAL IMPUESTO FACTURA INICIO",
+        "271": "BedAnalcolic ElevContAzucar",
+        "301": "IVA RETENIDO LEGUMBRES TOTAL",
+        "321": "IVA RETENIDO GANADO TOTAL",
+        "331": "IVA RETENIDO MADERA TOTAL",
+        "341": "IVA RETENIDO TRIGO TOTAL",
+        "361": "IVA RETENIDO ARROZ",
+        "371": "IVA RETENIDO HIDROBIOLOGICAS TOTAL",
+        "481": "IVA RETENIDO FRAMBUESAS TOTAL"
+    },
+    "__dummy_3__": "==========================================================================================",
+    "__dummy_4__": "VARIABLES PARA ETIQUETAS",
+    "__dummy_5__": "==========================================================================================",
+    "tags_folder": "app_specific\\tags\\temp",
+    "tags_output": "C:\\Users\\marqu\\Desktop\\Etiquetas",
+    "config_tags": [
+        "app_specific\\tags\\plantilla_1.json"
+    ],
+    "config_papers":{
+        "Carta":[2550, 3300],
+        "Oficio":[2550, 3900],
+        "A4":[2480, 3508]
+    },
+    "__dummy_6__": "==========================================================================================",
+    "__dummy_7__": "VARIABLES PARA APLICACION",
+    "__dummy_8__": "==========================================================================================",
+    "icon_app": "src\\app_image.png",
+    "icon_loading": "src\\loading_image.png",
+    "unity_list": {
+        "Unidades": "UN",
+        "Kilogramo": "KG",
+        "Gramo": "GR"
+    },
+    "product_show_columns": [
+        "codigo",
+        "nombre",
+        "precio_venta_boleta"
+    ],
+    "product_search_columns": [
+        "nombre",
+        "codigo"
+    ],
+    "taxes_show": {
+        "0": "SIN IMPUESTO",
+        "23": "Joyas,Oro,Pieles Finas",
+        "24": "Licores,Pisco,Destilados",
+        "25": "Vinos,Chichas,Sidras",
+        "26": "Cervezas otras Bed alc",
+        "271": "BedAnalcolic ElevContAzucar",
+        "44": "Tapices,CasasRod,Caviar,ArmdeAire"
+    },
+    "__dummy_9__": "==========================================================================================",
+    "__dummy_10__": "VARIABLES PARA LA PETICION HTTP",
+    "__dummy_11__": "==========================================================================================",
+    "url_add": "http://prod-gen.rjcfactura17.com/producto/agregar_gra.aspx",
+    "headers_add": {
+        "Host": "prod-gen.rjcfactura17.com",
+        "Connection": "close",
+        "Cache-Control": "max-age=0",
+        "Origin": "http://prod-gen.rjcfactura17.com",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Referer": "http://prod-gen.rjcfactura17.com/producto/agregar.aspx",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "Cookie": "ASP.NET_SessionId=ysasnkexgnlc5juyu5l0p2w5; login_rut=; idmaquina=4y5boyu5ttmzqp14a4oykhs0; idcliente=prod_f1578; empresa_nombre=; idsession=4y5boyu5ttmzqp14a4oykhs0; empresa=1; usuario=3; usuario_nombre=admin; perfil=1"
+    },
+
+    "url_edit": "http://prod-gen.rjcfactura17.com/producto/modificar_gra.aspx",
+    "headers_edit": {
+        "Host": "prod-gen.rjcfactura17.com",
+        "Connection": "close",
+        "Cache-Control": "max-age=0",
+        "Origin": "http://prod-gen.rjcfactura17.com",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Referer": "http://prod-gen.rjcfactura17.com/producto/modificar.aspx",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "Cookie": "ASP.NET_SessionId=4y5boyu5ttmzqp14a4oykhs0; login_rut=; idmaquina=4y5boyu5ttmzqp14a4oykhs0; idcliente=prod_f1578; empresa_nombre=; idsession=4y5boyu5ttmzqp14a4oykhs0; rjc-days=visto; empresa=1; usuario=3; usuario_nombre=admin; perfil=1"
+    },
+    
+    "attr_structure":{
+        "txtporcentaje_iva": "19",
+        "txtid": "",
+        "txtcodigo": "",
+        "txtcod_interno": "",
+        "txtnombre": "",
+        "txtfamilia_producto": "",
+        "txtsubfamilia_producto": "",
+        "txtunidad": "",
+        "txtiva": "",
+        "txtid_impuestos1": "",
+        "txtprecio_venta": "",
+        "txtprecio_venta_boleta": "",
+        "txtstock_critico": "",
+        "txtdias_reposion": "",
+        "txtvigente": "",
+        "txtfactor_compra": "",
+        "txtid_producto": "",
+        "txtfecha_creacion": ""
+    }
+}
