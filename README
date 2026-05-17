@@ -1,0 +1,306 @@
+# Migraciones y modelo de datos (Alembic)
+
+Este directorio contiene la configuración y los scripts de migración de la base de datos PostgreSQL del backend de Sarah, gestionados con **Alembic**.
+
+## Estructura
+
+```
+alembic/
+├── README.md               # este archivo
+├── env.py                  # entorno de ejecución de Alembic
+├── script.py.mako          # plantilla para nuevas migraciones
+└── versions/               # scripts de migración (nombrados por revisión)
+    ├── f891a47580ab_initial_schema.py
+    ├── a43564f5f391_modelo_v2_campos_paciente_y_rol_medico.py
+    └── b6e8d1f9c4a2_modelo_v2_eventos_enums_y_1_n.py
+```
+
+## Requisitos previos
+
+- Tener el entorno configurado con `uv sync`.
+- Tener definido `DATABASE_URL` en `.env` (PostgreSQL accesible).
+
+## Migraciones
+
+Las migraciones se gestionan con Alembic. Los modelos heredan de `Base` (`app/core/database.py`).
+
+```bash
+uv run alembic revision --autogenerate -m "descripción"  # nueva migración
+uv run alembic upgrade head                              # aplicar pendientes
+uv run alembic downgrade -1                              # revertir última
+```
+
+> Hoy las migraciones se corren manualmente tras el deploy. Migrar a un init container es un pendiente conocido (ver `docs/deploy_readiness.md`).
+
+## Último Modelo de datos
+
+```mermaid
+erDiagram
+    PACIENTE {
+        int id_paciente PK
+        string nombre
+        string apellido
+        string rut UK
+        date fecha_nacimiento
+        string sexo
+        string tamano_actual
+        text ficha_clinica
+        string email
+        string telefono
+        decimal peso_actual
+        decimal altura
+        boolean vive_solo
+        string grado_obesidad "SOBREPESO, OBES_I, II, III"
+        date fecha_diagnostico_obesidad
+        int id_apoyo FK
+    }
+
+    MEDICO {
+        int id_medico PK
+        string nombre
+        string apellido
+        string especialidad
+        string email
+        string telefono
+        string rol "MEDICO, GESTOR, ADMIN"
+    }
+
+    RED_APOYO {
+        int id_apoyo PK
+        string nombre
+        string apellido
+        string rut UK
+        string relacion
+        string email
+        string telefono
+    }
+
+    EVENTO_MEDICAL {
+        int id_evento PK
+        string tipo_evento "PRIMERA_CITA, EXAMENES, CONTROL, etc"
+        datetime fecha_hora
+        string estado_evento "PROGRAMADO, ASISTIO, CANCELADO, etc"
+        text notas
+        int id_medico FK
+        int id_paciente FK
+    }
+
+    ESTADO_DIARIO {
+        int id_estado PK
+        date fecha
+        decimal adherencia "Rango 0..1"
+        decimal peso
+        string tamano
+        int animo "Rango 1..5"
+        int motivacion "1..5"
+        int alerta_riesgo_tratamiento "Rango 1..5"
+        int alerta_riesgo_abandono "Rango 1..5"
+        decimal imc
+        int id_paciente FK
+    }
+
+    SINTOMA {
+        int id_sintoma PK
+        string nombre_sintoma
+        int severidad "Rango 1..3"
+        text notas
+    }
+
+    INTERACCION {
+        int id_interaccion PK
+        datetime fecha_hora
+        string emisor
+        string tipo_mensaje
+        text contenido
+        text feedback_paciente
+        int id_paciente FK
+    }
+
+    PREFERENCIAS {
+        int id_preferencia PK
+        string tipo_preferencia
+        string valor
+        datetime fecha_actualizacion
+        int id_paciente FK
+    }
+
+    PACIENTE_MEDICO {
+        int id_paciente FK
+        int id_medico FK
+    }
+
+    ESTADO_SINTOMA {
+        int id_estado FK
+        int id_sintoma FK
+    }
+
+    %% --- FILA SUPERIOR (Tablas conectadas solo a PACIENTE) ---
+    %% Usamos o{--|| para que Mermaid entienda que PACIENTE está abajo de ellas
+    RED_APOYO ||--o{ PACIENTE : "tiene"
+    INTERACCION o{--|| PACIENTE : "envia"
+    PREFERENCIAS o{--|| PACIENTE : "declara"
+    
+    %% --- FILA CENTRAL (Flujo intermedio hacia abajo) ---
+    PACIENTE ||--o{ ESTADO_DIARIO : "registra"
+    PACIENTE ||--o{ EVENTO_MEDICAL : "asiste a"
+    PACIENTE ||--o{ PACIENTE_MEDICO : "posee"
+
+    %% --- FILA INFERIOR (Tablas base y pivotes) ---
+    SINTOMA ||--o{ ESTADO_SINTOMA : "asociado"
+    ESTADO_DIARIO ||--o{ ESTADO_SINTOMA : "contiene"
+    
+    EVENTO_MEDICAL o{--|| MEDICO : "gestiona"
+    PACIENTE_MEDICO }o--|| MEDICO : "asiste"
+```
+
+### Entidades principales
+
+| Entidad | Descripción |
+|---|---|
+| `Paciente` | Datos personales y clínicos. Incluye `altura`, `vive_solo`, `grado_obesidad`, `fecha_diagnostico_obesidad` |
+| `Medico` | Profesional de salud. Campo `rol` con enum `RolUsuario` (`MEDICO`, `GESTOR`, `ADMIN`) |
+| `RedApoyo` | Persona de apoyo asociada al paciente |
+| `EventoMedical` | Citas, controles, exámenes. `tipo_evento` y `estado_evento` son enums cerrados |
+| `EstadoDiario` | Registro diario de adherencia, peso, ánimo, alertas de riesgo |
+| `Sintoma` | Catálogo de síntomas reportables |
+| `Interaccion` | Mensajes del chat paciente ↔ Sarah |
+| `Preferencias` | Preferencias declaradas por el paciente |
+
+### Enums (`app/models/enums.py`)
+
+| Enum | Valores |
+|---|---|
+| `GradoObesidad` | `SOBREPESO`, `OBES_I`, `OBES_II`, `OBES_III` |
+| `RolUsuario` | `MEDICO`, `GESTOR`, `ADMIN` |
+| `TipoEvento` | `PRIMERA_CITA`, `EXAMENES_LAB`, `CITA_RESULTADOS`, `DERIVACION`, `CONTROL_SEGUIMIENTO`, `REEVALUACION`, `TRATAMIENTO_AVANZADO`, `POST_TRATAMIENTO` |
+| `EstadoEvento` | `PROGRAMADO`, `ASISTIO`, `NO_ASISTIO`, `CANCELADO` |
+
+### Relaciones
+
+| Relación | Cardinalidad | Implementación |
+|---|---|---|
+| Paciente ↔ Medico | N:N | Tabla intermedia `paciente_medico` |
+| Paciente → RedApoyo | N:1 | FK `id_apoyo` en `Paciente` |
+| Medico → EventoMedical | 1:N | FK `id_medico` en `EventoMedical` |
+| Paciente → EventoMedical | 1:N | FK `id_paciente` en `EventoMedical` |
+| Paciente → EstadoDiario | 1:N | FK `id_paciente` en `EstadoDiario` |
+| EstadoDiario ↔ Sintoma | N:N | Tabla intermedia `estado_sintoma` |
+| Paciente → Interaccion | 1:N | FK `id_paciente` en `Interaccion` |
+| Paciente → Preferencias | 1:N | FK `id_paciente` en `Preferencias` |
+
+## Endpoints
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/health` | Health check (público) |
+| GET/POST | `/pacientes/` | Listar / crear pacientes |
+| GET/PUT/DELETE | `/pacientes/{id}` | Detalle / actualizar / eliminar |
+| GET/POST | `/medicos/` | Listar / crear médicos |
+| GET/PUT/DELETE | `/medicos/{id}` | Detalle / actualizar / eliminar |
+| GET/POST | `/red-apoyo/` | Listar / crear |
+| GET/PUT/DELETE | `/red-apoyo/{id}` | Detalle / actualizar / eliminar |
+| GET/POST | `/eventos/` | Listar / crear eventos médicos |
+| GET/PUT/DELETE | `/eventos/{id}` | Detalle / actualizar / eliminar |
+| GET/POST | `/estados-diarios/` | Listar / crear estados diarios |
+| GET | `/estados-diarios/paciente/{id}` | Estados de un paciente |
+| GET/PUT/DELETE | `/estados-diarios/{id}` | Detalle / actualizar / eliminar |
+| GET/POST | `/sintomas/` | Listar / crear síntomas |
+| GET/PUT/DELETE | `/sintomas/{id}` | Detalle / actualizar / eliminar |
+| GET/POST | `/interacciones/` | Listar / crear interacciones |
+| GET | `/interacciones/paciente/{id}` | Interacciones de un paciente |
+| DELETE | `/interacciones/{id}` | Eliminar |
+| GET/POST | `/preferencias/` | Listar / crear preferencias |
+| GET | `/preferencias/paciente/{id}` | Preferencias de un paciente |
+| GET/PUT/DELETE | `/preferencias/{id}` | Detalle / actualizar / eliminar |
+
+> Documentación interactiva completa en `/docs` (Swagger UI) y `/redoc`.
+
+## Comandos básicos (todos desde la raíz del proyecto)
+
+```bash
+# Aplicar todas las migraciones pendientes
+uv run alembic upgrade head
+
+# Crear una nueva migración (autogenerada a partir de cambios en los modelos)
+uv run alembic revision --autogenerate -m "descripción del cambio"
+
+# Ver el historial de revisiones
+uv run alembic history
+
+# Revertir la última migración (¡con cuidado en producción!)
+uv run alembic downgrade -1
+
+# Ver SQL que se ejecutaría sin aplicarlo (dry‑run)
+uv run alembic upgrade head --sql
+```
+
+## Flujo típico de trabajo
+
+1. Modifica o crea modelos en `app/models/`.
+2. Genera la migración automática:
+   ```bash
+   uv run alembic revision --autogenerate -m "agrega campo X a tabla Y"
+   ```
+3. Revisa el script generado en `alembic/versions/` (puede necesitar ajustes manuales si la detección automática no es perfecta).
+4. Prueba la migración en un entorno de desarrollo:
+   ```bash
+   uv run alembic upgrade head
+   ```
+5. Confirma que los tests unitarios y de integración sigan pasando.
+6. Incluye el nuevo script de migración en el commit.
+
+## En producción
+
+Las migraciones no se ejecutan automáticamente en el arranque del contenedor (es un gap conocido; ver `docs/deploy_readiness.md`). El procedimiento manual post‑deploy es:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml exec api uv run alembic upgrade head
+```
+
+Este paso debe ejecutarse **después** de que la nueva imagen esté corriendo, pero antes de que el tráfico real use funcionalidades que dependan del nuevo esquema.
+
+## Modelo de datos actual (resumen)
+
+El esquema refleja las entidades del dominio clínico-conversacional:
+
+| Tabla | Descripción |
+|-------|-------------|
+| `paciente` | Datos personales, clínicos y antropométricos. Contiene `altura`, `vive_solo`, `grado_obesidad` (enum), `fecha_diagnostico_obesidad`. |
+| `medico` | Profesionales de salud. Campo `rol` (MEDICO, GESTOR, ADMIN). |
+| `red_apoyo` | Personas de apoyo asociadas a pacientes (relación N:1 desde `paciente`). |
+| `evento_medical` | Citas, exámenes, controles. Tipos y estados mediante enums. Relación 1:N con `paciente`. |
+| `estado_diario` | Registro diario del paciente (adherencia, peso, ánimo, alertas). Relación N:N con `sintoma` mediante `estado_sintoma`. |
+| `sintoma` | Catálogo de síntomas reportables. |
+| `interaccion` | Mensajes del chat paciente ↔ Sarah. |
+| `preferencias` | Preferencias declaradas por el paciente (clave‑valor). |
+| Tablas asociativas | `paciente_medico` (N:N) y `estado_sintoma` (N:N). |
+
+### Enums definidos en la base de datos
+
+- `grado_obesidad` (SOBREPESO, OBES_I, OBES_II, OBES_III)
+- `rol_usuario` (MEDICO, GESTOR, ADMIN)
+- `tipo_evento` (PRIMERA_CITA, EXAMENES_LAB, CITA_RESULTADOS, DERIVACION, CONTROL_SEGUIMIENTO, REEVALUACION, TRATAMIENTO_AVANZADO, POST_TRATAMIENTO)
+- `estado_evento` (PROGRAMADO, ASISTIO, NO_ASISTIO, CANCELADO)
+
+Estos enums se crean como tipos nativos de PostgreSQL mediante `CREATE TYPE`.
+
+## Consideraciones importantes
+
+- **Idempotencia**: Las migraciones están diseñadas para aplicarse una sola vez en cada entorno. Usa `checkfirst=True` en la creación de enums y evita comandos destructivos innecesarios.
+- **Rollbacks**: Son posibles (`downgrade`), pero para cambios complejos (p.ej., eliminar una columna con datos) se recomienda planificar una migración de dos fases o realizar el rollback restaurando un respaldo.
+- **Versionado**: Cada migración tiene un identificador único (hash) y depende de la anterior. No edites migraciones ya aplicadas en producción; crea una nueva migración correctiva.
+- **Relaciones circulares**: El modelo usa `Mapped["Paciente"]` con strings literales (forward references) para evitar problemas de importación circular.
+
+## Referencias
+
+- [Documentación de Alembic](https://alembic.sqlalchemy.org/)
+- [SQLAlchemy ORM](https://docs.sqlalchemy.org/)
+- Diagrama ER del proyecto: [`docs/er_diagram.png`](../docs/er_diagram.png) (vista general de las relaciones).
+- Detalles del dominio y eventos: [`docs/eventos.md`](../docs/eventos.md).
+
+---
+
+Para cualquier cambio estructural en el esquema, **siempre** genera una nueva migración y verifica en un entorno de pruebas antes de desplegar a producción.
+```
+
+Este README asume que la carpeta `alembic` está en la raíz del proyecto. Si por alguna razón la ruta del diagrama o documentos no es exactamente `../docs/...`, ajústala según tu estructura real.
